@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Layers, RefreshCw, Plus, Server, CheckCircle2, AlertTriangle, ExternalLink } from 'lucide-react';
+import { getApiUrl } from '@/config';
 
 interface MCPServer {
   id: string;
@@ -26,7 +27,7 @@ export default function MCPPage() {
     const fetch_ = async () => {
       setLoading(true);
       try {
-        const res = await fetch('http://localhost:8000/api/v1/mcp/servers', { cache: 'no-store' });
+        const res = await fetch(getApiUrl('/api/v1/mcp/servers'), { cache: 'no-store' });
         if (res.ok) {
           const data = await res.json();
           if (Array.isArray(data) && data.length > 0) setServers(data);

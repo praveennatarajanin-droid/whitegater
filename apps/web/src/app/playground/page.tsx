@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { Send, RefreshCw, Cpu, DollarSign, Clock, ChevronDown, X, Settings } from 'lucide-react';
+import { getApiUrl } from '@/config';
 
 interface Message {
   role: 'user' | 'assistant' | 'system';
@@ -38,7 +39,7 @@ export default function PlaygroundPage() {
     const token = localStorage.getItem('whitegator_token');
     if (!token) return;
     // Fetch available models
-    fetch('http://127.0.0.1:8000/api/v1/admin/models', { cache: 'no-store' })
+    fetch(getApiUrl('/api/v1/admin/models'), { cache: 'no-store' })
       .then(r => r.json())
       .then(data => {
         if (Array.isArray(data) && data.length > 0) {
@@ -51,7 +52,7 @@ export default function PlaygroundPage() {
       })
       .catch(() => {});
     // Fetch user's keys
-    fetch('http://127.0.0.1:8000/api/v1/keys', {
+    fetch(getApiUrl('/api/v1/keys'), {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(r => r.json())
@@ -86,7 +87,7 @@ export default function PlaygroundPage() {
     const start = performance.now();
 
     try {
-      const res = await fetch('http://127.0.0.1:8000/v1/chat/completions', {
+      const res = await fetch(getApiUrl('/v1/chat/completions'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

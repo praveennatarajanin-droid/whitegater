@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { DollarSign, RefreshCw, AlertTriangle, TrendingUp, ArrowUpRight } from 'lucide-react';
+import { getApiUrl } from '@/config';
 
 interface CostData {
   total_spend_usd: number;
@@ -26,7 +27,7 @@ export default function CostsPage() {
   const fetchCosts = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/v1/analytics/summary?range=30d', { cache: 'no-store' });
+      const res = await fetch(getApiUrl('/api/v1/analytics/summary?range=30d'), { cache: 'no-store' });
       if (res.ok) setData(await res.json());
       else throw new Error('Failed');
     } catch {

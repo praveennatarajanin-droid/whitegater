@@ -64,7 +64,7 @@ services:
     restart: always
     environment:
       NODE_ENV: production
-      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://llm.testinggator.online/api/}
     ports:
       - "3000:3000"
     depends_on:

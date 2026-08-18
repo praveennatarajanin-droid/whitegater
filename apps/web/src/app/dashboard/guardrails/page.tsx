@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Shield, RefreshCw, Eye, EyeOff, AlertTriangle, CheckCircle2, Cpu } from 'lucide-react';
+import { getApiUrl } from '@/config';
 
 interface Guardrail {
   id: string;
@@ -60,7 +61,7 @@ export default function GuardrailsPage() {
     const fetch_ = async () => {
       setLoading(true);
       try {
-        const res = await fetch('http://127.0.0.1:8000/api/v1/admin/guardrails', { cache: 'no-store' });
+        const res = await fetch(getApiUrl('/api/v1/admin/guardrails'), { cache: 'no-store' });
         if (res.ok) {
           const data = await res.json();
           if (Array.isArray(data) && data.length > 0) {

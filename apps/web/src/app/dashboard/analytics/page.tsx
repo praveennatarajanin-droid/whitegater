@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { BarChart2, RefreshCw, TrendingUp, TrendingDown, DollarSign, Cpu, Clock, AlertTriangle } from 'lucide-react';
+import { getApiUrl } from '@/config';
 
 interface AnalyticsData {
   total_requests: number;
@@ -110,7 +111,7 @@ export default function AnalyticsPage() {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/v1/analytics/summary?range=${range}`, { cache: 'no-store' });
+      const res = await fetch(getApiUrl(`/api/v1/analytics/summary?range=${range}`), { cache: 'no-store' });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       setData(await res.json());
     } catch (err: any) {

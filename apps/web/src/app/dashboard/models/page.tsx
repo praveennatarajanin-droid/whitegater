@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Cpu, RefreshCw, CheckCircle2, Eye, Layers, Server } from 'lucide-react';
+import { getApiUrl } from '@/config';
 
 interface Provider {
   id: string;
@@ -48,8 +49,8 @@ export default function ModelsPage() {
     setError('');
     try {
       const [pRes, mRes] = await Promise.all([
-        fetch('http://127.0.0.1:8000/api/v1/admin/providers', { cache: 'no-store' }),
-        fetch('http://127.0.0.1:8000/api/v1/admin/models', { cache: 'no-store' }),
+        fetch(getApiUrl('/api/v1/admin/providers'), { cache: 'no-store' }),
+        fetch(getApiUrl('/api/v1/admin/models'), { cache: 'no-store' }),
       ]);
       if (pRes.ok) setProviders(await pRes.json());
       if (mRes.ok) setModels(await mRes.json());
@@ -86,7 +87,7 @@ export default function ModelsPage() {
 
       {error && (
         <div style={{ padding: '12px 16px', marginBottom: 20, borderRadius: 12, background: 'var(--color-warning-bg)', border: '1px solid var(--color-warning-border)', color: 'var(--color-warning-text)', fontSize: 13 }}>
-          {error} — Make sure the backend is running on port 8000.
+          {error} — Make sure the backend is accessible.
         </div>
       )}
 

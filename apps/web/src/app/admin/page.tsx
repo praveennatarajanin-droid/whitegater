@@ -5,6 +5,7 @@ import {
   Shield, Users, Building, Cpu, Server, Activity, Ban,
   CheckCircle, RefreshCw, Lock, Layers, Folder, AlertTriangle,
 } from 'lucide-react';
+import { getApiUrl } from '@/config';
 
 type TabId = 'users' | 'orgs' | 'projects' | 'providers' | 'models' | 'system' | 'audit';
 
@@ -37,7 +38,7 @@ export default function AdminConsolePage() {
   const [system,    setSystem]    = useState<any>(null);
   const [auditLogs, setAuditLogs] = useState<any[]>([]);
 
-  const BASE = 'http://localhost:8000/api/v1/admin';
+  const BASE = getApiUrl('/api/v1/admin');
 
   const fetchTab = async () => {
     setLoading(true);

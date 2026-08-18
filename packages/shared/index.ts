@@ -1,6 +1,6 @@
 export const WHITEGATOR_CONSTANTS = {
   APP_NAME: "WhiteGator AI Gateway",
-  DEFAULT_GATEWAY_URL: "http://localhost:8000",
+  DEFAULT_GATEWAY_URL: "https://llm.testinggator.online/api/",
   DEFAULT_UI_URL: "http://localhost:3000",
   API_V1_PREFIX: "/api/v1",
   OPENAI_GATEWAY_PREFIX: "/v1",

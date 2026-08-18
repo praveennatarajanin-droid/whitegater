@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, Lock, Mail, User } from 'lucide-react';
+import { getApiUrl } from '@/config';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -19,7 +20,7 @@ export default function RegisterPage() {
     setError('');
 
     try {
-      const res = await fetch('http://localhost:8000/api/v1/auth/register', {
+      const res = await fetch(getApiUrl('/api/v1/auth/register'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ full_name: fullName, email, password }),
@@ -34,7 +35,7 @@ export default function RegisterPage() {
       localStorage.setItem('whitegator_token', data.access_token);
       router.push('/dashboard');
     } catch (err: any) {
-      setError(err.message || 'Server connection failed. Is FastAPI backend running on port 8000?');
+      setError(err.message || 'Server connection failed. Is the API backend accessible?');
     } finally {
       setLoading(false);
     }

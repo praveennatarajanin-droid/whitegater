@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Bot, RefreshCw, Plus, Cpu, Settings, Play } from 'lucide-react';
+import { getApiUrl } from '@/config';
 
 interface Agent {
   id: string;
@@ -25,7 +26,7 @@ export default function AgentsPage() {
     const fetch_ = async () => {
       setLoading(true);
       try {
-        const res = await fetch('http://localhost:8000/api/v1/agents', { cache: 'no-store' });
+        const res = await fetch(getApiUrl('/api/v1/agents'), { cache: 'no-store' });
         if (res.ok) {
           const data = await res.json();
           if (Array.isArray(data) && data.length > 0) setAgents(data);

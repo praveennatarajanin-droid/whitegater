@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Key, Plus, Copy, Trash2, RefreshCw, Check, AlertTriangle, X, Eye, EyeOff } from 'lucide-react';
+import { getApiUrl } from '@/config';
 
 interface ApiKey {
   id: string;
@@ -63,7 +64,7 @@ function CreateKeyModal({ onClose, onCreated }: { onClose: () => void; onCreated
       if (form.rate_limit_rpm) body.rate_limit_rpm = parseInt(form.rate_limit_rpm);
       if (form.rate_limit_tpm) body.rate_limit_tpm = parseInt(form.rate_limit_tpm);
 
-      const res = await fetch('http://127.0.0.1:8000/api/v1/keys', {
+      const res = await fetch(getApiUrl('/api/v1/keys'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -232,7 +233,7 @@ export default function KeysPage() {
     setError('');
     try {
       const token = localStorage.getItem('whitegator_token');
-      const res = await fetch('http://127.0.0.1:8000/api/v1/keys', {
+      const res = await fetch(getApiUrl('/api/v1/keys'), {
         headers: token ? { Authorization: `Bearer ${token}` } : {},
         cache: 'no-store',
       });
@@ -258,7 +259,7 @@ export default function KeysPage() {
     if (!confirm(`Revoke key "${name}"? This action cannot be undone.`)) return;
     try {
       const token = localStorage.getItem('whitegator_token');
-      await fetch(`http://127.0.0.1:8000/api/v1/keys/${id}`, {
+      await fetch(getApiUrl(`/api/v1/keys/${id}`), {
         method: 'DELETE',
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       });

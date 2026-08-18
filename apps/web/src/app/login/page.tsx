@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ShieldCheck, ArrowRight, Lock, Mail } from 'lucide-react';
+import { getApiUrl } from '@/config';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -18,7 +19,7 @@ export default function LoginPage() {
     setError('');
 
     try {
-      const res = await fetch('http://localhost:8000/api/v1/auth/login', {
+      const res = await fetch(getApiUrl('/api/v1/auth/login'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -33,7 +34,7 @@ export default function LoginPage() {
       localStorage.setItem('whitegator_token', data.access_token);
       router.push('/dashboard');
     } catch (err: any) {
-      setError(err.message || 'Server connection failed. Is FastAPI backend running on port 8000?');
+      setError(err.message || 'Server connection failed. Is the API backend accessible?');
     } finally {
       setLoading(false);
     }

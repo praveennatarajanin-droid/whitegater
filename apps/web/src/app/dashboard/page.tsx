@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { getApiUrl } from '@/config';
 import {
   Activity, Database, Server, Key, Cpu, DollarSign,
   RefreshCw, Clock, Layers, TrendingUp,
@@ -91,13 +92,13 @@ export default function DashboardPage() {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('http://localhost:8000/api/v1/dashboard/stats', { cache: 'no-store' });
+      const res = await fetch(getApiUrl('/api/v1/dashboard/stats'), { cache: 'no-store' });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       setStats(data);
       setLastRefreshed(new Date().toLocaleTimeString());
     } catch (err: any) {
-      setError(err.message || 'Cannot connect to WhiteGator API backend on port 8000');
+      setError(err.message || 'Cannot connect to WhiteGator API backend');
     } finally {
       setLoading(false);
     }
@@ -187,7 +188,7 @@ export default function DashboardPage() {
             Refresh
           </button>
           <a
-            href="http://localhost:8000/docs"
+            href={getApiUrl('/docs')}
             target="_blank"
             rel="noreferrer"
             className="btn-signal-green btn-sm"

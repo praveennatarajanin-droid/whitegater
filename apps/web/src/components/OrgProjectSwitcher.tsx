@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Building2, ChevronDown, Folder, Shield, User, LogOut } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { getApiUrl } from '@/config';
 
 interface Org {
   id: string;
@@ -33,7 +34,7 @@ export default function OrgProjectSwitcher() {
 
     try {
       // 1. Fetch Profile
-      const meRes = await fetch('http://127.0.0.1:8000/api/v1/auth/me', {
+      const meRes = await fetch(getApiUrl('/api/v1/auth/me'), {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (meRes.ok) {
@@ -41,7 +42,7 @@ export default function OrgProjectSwitcher() {
         setCurrentUser(user);
 
         // 2. Fetch Organizations
-        const orgsRes = await fetch('http://127.0.0.1:8000/api/v1/organizations', {
+        const orgsRes = await fetch(getApiUrl('/api/v1/organizations'), {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (orgsRes.ok) {
@@ -52,7 +53,7 @@ export default function OrgProjectSwitcher() {
             setSelectedOrg(firstOrg);
 
             // 3. Fetch Projects for Selected Org
-            const projRes = await fetch(`http://127.0.0.1:8000/api/v1/organizations/${firstOrg.id}/projects`, {
+            const projRes = await fetch(getApiUrl(`/api/v1/organizations/${firstOrg.id}/projects`), {
               headers: { Authorization: `Bearer ${token}` }
             });
             if (projRes.ok) {
@@ -77,7 +78,7 @@ export default function OrgProjectSwitcher() {
   const handleLogout = async () => {
     const token = localStorage.getItem('whitegator_token');
     if (token) {
-      await fetch('http://127.0.0.1:8000/api/v1/auth/logout', {
+      await fetch(getApiUrl('/api/v1/auth/logout'), {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` }
       }).catch(() => {});
@@ -160,7 +161,7 @@ export default function OrgProjectSwitcher() {
           Organizations
         </Link>
         <a
-          href="http://localhost:8000/docs"
+          href={getApiUrl('/docs')}
           target="_blank"
           rel="noreferrer"
           className="btn-ghost-pill py-1.5 px-3 text-xs text-[#6a6b6c]"

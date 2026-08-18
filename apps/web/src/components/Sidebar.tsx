@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { getApiUrl } from '@/config';
 import {
   LayoutDashboard,
   Key,
@@ -74,13 +75,13 @@ export default function Sidebar() {
       const token = localStorage.getItem('whitegator_token');
       if (!token) return;
       try {
-        const res = await fetch('http://localhost:8000/api/v1/auth/me', {
+        const res = await fetch(getApiUrl('/api/v1/auth/me'), {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (res.ok) {
           const user = await res.json();
           setCurrentUser(user);
-          const orgsRes = await fetch('http://localhost:8000/api/v1/organizations', {
+          const orgsRes = await fetch(getApiUrl('/api/v1/organizations'), {
             headers: { Authorization: `Bearer ${token}` }
           });
           if (orgsRes.ok) {
@@ -96,7 +97,7 @@ export default function Sidebar() {
   const handleLogout = async () => {
     const token = localStorage.getItem('whitegator_token');
     if (token) {
-      await fetch('http://localhost:8000/api/v1/auth/logout', {
+      await fetch(getApiUrl('/api/v1/auth/logout'), {
         method: 'POST', headers: { Authorization: `Bearer ${token}` }
       }).catch(() => {});
     }
@@ -159,7 +160,7 @@ export default function Sidebar() {
 
         <div className="sidebar-section-label">Resources</div>
         <a
-          href="http://localhost:8000/docs"
+          href={getApiUrl('/docs')}
           target="_blank"
           rel="noreferrer"
           className="sidebar-link"

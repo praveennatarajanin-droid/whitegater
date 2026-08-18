@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LayoutDashboard, Terminal, Cpu, FlaskConical } from 'lucide-react';
+import { getApiUrl } from '@/config';
 
 export default function HeaderLogo() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -65,7 +66,7 @@ export default function HeaderLogo() {
             </Link>
           ))}
           <a
-            href="http://localhost:8000/docs"
+            href={getApiUrl('/docs')}
             target="_blank"
             rel="noreferrer"
             className="btn-ghost-pill"

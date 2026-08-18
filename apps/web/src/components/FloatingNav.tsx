@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ShieldCheck, Cpu, LayoutDashboard, Terminal, Building2 } from 'lucide-react';
+import { getApiUrl } from '@/config';
 
 export default function FloatingNav() {
   const pathname = usePathname();
@@ -33,7 +34,7 @@ export default function FloatingNav() {
             Organizations
           </Link>
           <a
-            href="http://localhost:8000/docs"
+            href={getApiUrl('/docs')}
             target="_blank"
             rel="noreferrer"
             className="btn-ghost-pill flex items-center gap-1.5 text-[#6a6b6c]"

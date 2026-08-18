@@ -7,6 +7,7 @@ import {
   Copy, ChevronRight,
 } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
+import { getApiUrl } from '@/config';
 
 // ─── Animated Counter ────────────────────────────────────────────
 function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: string }) {
@@ -220,7 +221,7 @@ export default function LandingPage() {
             <ArrowRight size={16} />
           </Link>
           <a
-            href="http://localhost:8000/docs"
+            href={getApiUrl('/docs')}
             target="_blank"
             rel="noreferrer"
             className="btn-outline-pill"
@@ -475,7 +476,7 @@ export default function LandingPage() {
             <ArrowRight size={16} />
           </Link>
           <a
-            href="http://localhost:8000/docs"
+            href={getApiUrl('/docs')}
             target="_blank"
             rel="noreferrer"
             style={{

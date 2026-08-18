@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Activity, Filter, RefreshCw, Cpu, Server, Clock, DollarSign } from 'lucide-react';
+import { getApiUrl } from '@/config';
 
 interface RequestLogItem {
   id: string;
@@ -26,7 +27,7 @@ export default function UsagePage() {
   const fetchUsage = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:8000/api/v1/dashboard/stats', { cache: 'no-store' });
+      const res = await fetch(getApiUrl('/api/v1/dashboard/stats'), { cache: 'no-store' });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       setLogs(data.recent_activity || []);
