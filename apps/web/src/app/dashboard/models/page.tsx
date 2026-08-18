@@ -49,8 +49,8 @@ export default function ModelsPage() {
     setError('');
     try {
       const [pRes, mRes] = await Promise.all([
-        fetch(getApiUrl('/api/v1/admin/providers'), { cache: 'no-store' }),
-        fetch(getApiUrl('/api/v1/admin/models'), { cache: 'no-store' }),
+        fetch(getApiUrl('/v1/admin/providers'), { cache: 'no-store' }),
+        fetch(getApiUrl('/v1/admin/models'), { cache: 'no-store' }),
       ]);
       if (pRes.ok) setProviders(await pRes.json());
       if (mRes.ok) setModels(await mRes.json());

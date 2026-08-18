@@ -34,7 +34,7 @@ export default function OrgProjectSwitcher() {
 
     try {
       // 1. Fetch Profile
-      const meRes = await fetch(getApiUrl('/api/v1/auth/me'), {
+      const meRes = await fetch(getApiUrl('/v1/auth/me'), {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (meRes.ok) {
@@ -42,7 +42,7 @@ export default function OrgProjectSwitcher() {
         setCurrentUser(user);
 
         // 2. Fetch Organizations
-        const orgsRes = await fetch(getApiUrl('/api/v1/organizations'), {
+        const orgsRes = await fetch(getApiUrl('/v1/organizations'), {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (orgsRes.ok) {
@@ -53,7 +53,7 @@ export default function OrgProjectSwitcher() {
             setSelectedOrg(firstOrg);
 
             // 3. Fetch Projects for Selected Org
-            const projRes = await fetch(getApiUrl(`/api/v1/organizations/${firstOrg.id}/projects`), {
+            const projRes = await fetch(getApiUrl(`/v1/organizations/${firstOrg.id}/projects`), {
               headers: { Authorization: `Bearer ${token}` }
             });
             if (projRes.ok) {
@@ -78,7 +78,7 @@ export default function OrgProjectSwitcher() {
   const handleLogout = async () => {
     const token = localStorage.getItem('whitegator_token');
     if (token) {
-      await fetch(getApiUrl('/api/v1/auth/logout'), {
+      await fetch(getApiUrl('/v1/auth/logout'), {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` }
       }).catch(() => {});

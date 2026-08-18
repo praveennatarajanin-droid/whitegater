@@ -68,7 +68,7 @@ export default function OrganizationsPage() {
 
     try {
       // 1. Fetch User Orgs
-      const orgsRes = await fetch(getApiUrl('/api/v1/organizations'), {
+      const orgsRes = await fetch(getApiUrl('/v1/organizations'), {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (!orgsRes.ok) throw new Error('Failed to load organizations');
@@ -80,13 +80,13 @@ export default function OrganizationsPage() {
         setActiveOrg(targetOrg);
 
         // 2. Fetch Members
-        const memRes = await fetch(getApiUrl(`/api/v1/organizations/${targetOrg.id}/members`), {
+        const memRes = await fetch(getApiUrl(`/v1/organizations/${targetOrg.id}/members`), {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (memRes.ok) setMembers(await memRes.json());
 
         // 3. Fetch Projects
-        const projRes = await fetch(getApiUrl(`/api/v1/organizations/${targetOrg.id}/projects`), {
+        const projRes = await fetch(getApiUrl(`/v1/organizations/${targetOrg.id}/projects`), {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (projRes.ok) setProjects(await projRes.json());
@@ -110,7 +110,7 @@ export default function OrganizationsPage() {
     setSuccessMsg('');
 
     try {
-      const res = await fetch(getApiUrl(`/api/v1/organizations/${activeOrg.id}/members`), {
+      const res = await fetch(getApiUrl(`/v1/organizations/${activeOrg.id}/members`), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -141,7 +141,7 @@ export default function OrganizationsPage() {
     setSuccessMsg('');
 
     try {
-      const res = await fetch(getApiUrl(`/api/v1/organizations/${activeOrg.id}/projects`), {
+      const res = await fetch(getApiUrl(`/v1/organizations/${activeOrg.id}/projects`), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -170,7 +170,7 @@ export default function OrganizationsPage() {
     const token = localStorage.getItem('whitegator_token');
 
     try {
-      const res = await fetch(getApiUrl(`/api/v1/organizations/${activeOrg.id}/members/${userId}`), {
+      const res = await fetch(getApiUrl(`/v1/organizations/${activeOrg.id}/members/${userId}`), {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });

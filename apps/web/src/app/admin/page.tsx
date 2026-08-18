@@ -38,7 +38,7 @@ export default function AdminConsolePage() {
   const [system,    setSystem]    = useState<any>(null);
   const [auditLogs, setAuditLogs] = useState<any[]>([]);
 
-  const BASE = getApiUrl('/api/v1/admin');
+  const BASE = getApiUrl('/v1/admin');
 
   const fetchTab = async () => {
     setLoading(true);

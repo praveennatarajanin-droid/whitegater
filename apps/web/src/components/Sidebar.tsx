@@ -75,13 +75,13 @@ export default function Sidebar() {
       const token = localStorage.getItem('whitegator_token');
       if (!token) return;
       try {
-        const res = await fetch(getApiUrl('/api/v1/auth/me'), {
+        const res = await fetch(getApiUrl('/v1/auth/me'), {
           headers: { Authorization: `Bearer ${token}` }
         });
         if (res.ok) {
           const user = await res.json();
           setCurrentUser(user);
-          const orgsRes = await fetch(getApiUrl('/api/v1/organizations'), {
+          const orgsRes = await fetch(getApiUrl('/v1/organizations'), {
             headers: { Authorization: `Bearer ${token}` }
           });
           if (orgsRes.ok) {
@@ -97,7 +97,7 @@ export default function Sidebar() {
   const handleLogout = async () => {
     const token = localStorage.getItem('whitegator_token');
     if (token) {
-      await fetch(getApiUrl('/api/v1/auth/logout'), {
+      await fetch(getApiUrl('/v1/auth/logout'), {
         method: 'POST', headers: { Authorization: `Bearer ${token}` }
       }).catch(() => {});
     }

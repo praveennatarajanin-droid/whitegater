@@ -39,7 +39,7 @@ export default function PlaygroundPage() {
     const token = localStorage.getItem('whitegator_token');
     if (!token) return;
     // Fetch available models
-    fetch(getApiUrl('/api/v1/admin/models'), { cache: 'no-store' })
+    fetch(getApiUrl('/v1/admin/models'), { cache: 'no-store' })
       .then(r => r.json())
       .then(data => {
         if (Array.isArray(data) && data.length > 0) {
@@ -52,7 +52,7 @@ export default function PlaygroundPage() {
       })
       .catch(() => {});
     // Fetch user's keys
-    fetch(getApiUrl('/api/v1/keys'), {
+    fetch(getApiUrl('/v1/keys'), {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(r => r.json())

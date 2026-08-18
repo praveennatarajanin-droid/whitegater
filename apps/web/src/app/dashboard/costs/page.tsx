@@ -27,7 +27,7 @@ export default function CostsPage() {
   const fetchCosts = async () => {
     setLoading(true);
     try {
-      const res = await fetch(getApiUrl('/api/v1/analytics/summary?range=30d'), { cache: 'no-store' });
+      const res = await fetch(getApiUrl('/v1/analytics/summary?range=30d'), { cache: 'no-store' });
       if (res.ok) setData(await res.json());
       else throw new Error('Failed');
     } catch {

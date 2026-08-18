@@ -92,7 +92,7 @@ export default function DashboardPage() {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(getApiUrl('/api/v1/dashboard/stats'), { cache: 'no-store' });
+      const res = await fetch(getApiUrl('/v1/dashboard/stats'), { cache: 'no-store' });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       setStats(data);

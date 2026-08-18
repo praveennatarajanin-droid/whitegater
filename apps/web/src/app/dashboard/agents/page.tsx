@@ -26,7 +26,7 @@ export default function AgentsPage() {
     const fetch_ = async () => {
       setLoading(true);
       try {
-        const res = await fetch(getApiUrl('/api/v1/agents'), { cache: 'no-store' });
+        const res = await fetch(getApiUrl('/v1/agents'), { cache: 'no-store' });
         if (res.ok) {
           const data = await res.json();
           if (Array.isArray(data) && data.length > 0) setAgents(data);
