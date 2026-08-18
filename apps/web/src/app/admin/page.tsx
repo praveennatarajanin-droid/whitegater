@@ -209,7 +209,7 @@ export default function AdminConsolePage() {
           </table>
         </div>
       ) : tab === 'providers' ? (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
+        <div className="grid-responsive-4">
           {providers.map(p => (
             <div key={p.id} className="provider-card">
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
@@ -233,35 +233,37 @@ export default function AdminConsolePage() {
         </div>
       ) : tab === 'models' ? (
         <div className="merlin-card" style={{ overflow: 'hidden' }}>
-          <table className="data-table">
-            <thead><tr>
-              <th>Model</th><th>Alias</th><th>Input / 1M</th><th>Output / 1M</th><th>Status</th>
-            </tr></thead>
-            <tbody>
-              {models.map(m => (
-                <tr key={m.id}>
-                  <td>
-                    <div style={{ fontWeight: 600 }}>{m.display_name}</div>
-                    <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--color-graphite)' }}>{m.model_code}</div>
-                  </td>
-                  <td>
-                    {m.model_alias
-                      ? <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--color-purple-text)', background: 'var(--color-purple-bg)', padding: '2px 8px', borderRadius: 6 }}>{m.model_alias}</span>
-                      : <span style={{ color: 'var(--color-ash)' }}>—</span>
-                    }
-                  </td>
-                  <td style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}>${(m.input_cost_per_1m || 0).toFixed(3)}</td>
-                  <td style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}>${(m.output_cost_per_1m || 0).toFixed(3)}</td>
-                  <td><span className={`badge ${m.enabled !== false ? 'badge-green' : 'badge-gray'}`}>{m.status || 'Active'}</span></td>
-                </tr>
-              ))}
-              {models.length === 0 && <tr><td colSpan={5} style={{ textAlign: 'center', color: 'var(--color-graphite)', padding: '32px' }}>No models found</td></tr>}
-            </tbody>
-          </table>
+          <div className="table-responsive">
+            <table className="data-table">
+              <thead><tr>
+                <th>Model</th><th>Alias</th><th>Input / 1M</th><th>Output / 1M</th><th>Status</th>
+              </tr></thead>
+              <tbody>
+                {models.map(m => (
+                  <tr key={m.id}>
+                    <td>
+                      <div style={{ fontWeight: 600 }}>{m.display_name}</div>
+                      <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--color-graphite)' }}>{m.model_code}</div>
+                    </td>
+                    <td>
+                      {m.model_alias
+                        ? <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--color-purple-text)', background: 'var(--color-purple-bg)', padding: '2px 8px', borderRadius: 6 }}>{m.model_alias}</span>
+                        : <span style={{ color: 'var(--color-ash)' }}>—</span>
+                      }
+                    </td>
+                    <td style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}>${(m.input_cost_per_1m || 0).toFixed(3)}</td>
+                    <td style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}>${(m.output_cost_per_1m || 0).toFixed(3)}</td>
+                    <td><span className={`badge ${m.enabled !== false ? 'badge-green' : 'badge-gray'}`}>{m.status || 'Active'}</span></td>
+                  </tr>
+                ))}
+                {models.length === 0 && <tr><td colSpan={5} style={{ textAlign: 'center', color: 'var(--color-graphite)', padding: '32px' }}>No models found</td></tr>}
+              </tbody>
+            </table>
+          </div>
         </div>
       ) : tab === 'system' ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
+          <div className="grid-responsive-3">
             {[
               { label: 'Gateway Engine', value: system?.gateway_status || 'Operational', sub: `Version ${system?.version || '1.0.0'}`, green: true },
               { label: 'Database', value: system?.database?.status || 'Healthy', sub: `Engine: ${system?.database?.database_type || 'SQLite'}`, green: true },

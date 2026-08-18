@@ -176,7 +176,7 @@ export default function AnalyticsPage() {
       )}
 
       {/* KPI Row */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 14, marginBottom: 24 }}>
+      <div className="grid-responsive-4" style={{ marginBottom: 24 }}>
         {[
           { label: 'Total Requests', value: loading ? '—' : (data?.total_requests || 0).toLocaleString(), icon: <Cpu size={15} />, color: '#3575f8', bg: '#eff6ff', trend: 'This period' },
           { label: 'Total Spend', value: loading ? '—' : `$${(data?.total_spend_usd || 0).toFixed(4)}`, icon: <DollarSign size={15} />, color: '#34c759', bg: '#f0fdf4', trend: 'Calculated' },
@@ -195,7 +195,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Charts Row */}
-      <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 20, marginBottom: 20 }}>
+      <div className="grid-responsive-2-1" style={{ marginBottom: 20 }}>
         {/* Requests over time bar chart */}
         <div className="merlin-card" style={{ padding: '20px' }}>
           <div className="section-header">
@@ -230,7 +230,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Bottom Row: Model usage + Provider table */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+      <div className="grid-responsive-2">
         {/* Top Models */}
         <div className="merlin-card" style={{ padding: '20px' }}>
           <div className="section-header" style={{ marginBottom: 16 }}>

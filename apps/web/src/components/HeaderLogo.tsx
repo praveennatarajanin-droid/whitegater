@@ -21,16 +21,16 @@ export default function HeaderLogo() {
   ];
 
   return (
-    <div style={{ maxWidth: 1160, margin: '0 auto', padding: '20px 24px 0', position: 'relative', zIndex: 10 }}>
+    <div style={{ maxWidth: 1160, margin: '0 auto', padding: '16px 16px 0', position: 'relative', zIndex: 10 }}>
       <div
         style={{
-          display: 'flex', alignItems: 'center', gap: 8,
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8,
           padding: '8px 12px',
           background: '#fff',
           borderRadius: 14,
           border: '1px solid var(--color-cloud)',
           boxShadow: '0 1px 6px rgba(0,0,0,0.05)',
-          marginBottom: 24,
+          marginBottom: 16,
         }}
       >
         {/* Logo */}
@@ -47,7 +47,7 @@ export default function HeaderLogo() {
         </Link>
 
         {/* Nav */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 2, flex: 1 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap', flex: 1, minWidth: 200 }}>
           {navLinks.map(l => (
             <Link
               key={l.href}
@@ -77,9 +77,9 @@ export default function HeaderLogo() {
         </div>
 
         {/* Auth Actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, paddingLeft: 12, borderLeft: '1px solid var(--color-cloud)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, paddingLeft: 8, borderLeft: '1px solid var(--color-cloud)', marginLeft: 'auto' }}>
           {isLoggedIn ? (
-            <Link href="/dashboard" className="btn-signal-green" style={{ fontSize: 12, gap: 5, padding: '7px 16px' }}>
+            <Link href="/dashboard" className="btn-signal-green" style={{ fontSize: 12, gap: 5, padding: '7px 14px' }}>
               <Cpu size={13} /> Dashboard
             </Link>
           ) : (
@@ -87,8 +87,8 @@ export default function HeaderLogo() {
               <Link href="/login" className="btn-ghost-pill" style={{ fontSize: 12, color: 'var(--color-steel-gray)', fontWeight: 500, textDecoration: 'none' }}>
                 Log in
               </Link>
-              <Link href="/dashboard" className="btn-signal-green" style={{ fontSize: 12, gap: 5, padding: '7px 16px' }}>
-                <Cpu size={13} /> Launch Console
+              <Link href="/dashboard" className="btn-signal-green" style={{ fontSize: 12, gap: 5, padding: '7px 14px' }}>
+                <Cpu size={13} /> Launch
               </Link>
             </>
           )}

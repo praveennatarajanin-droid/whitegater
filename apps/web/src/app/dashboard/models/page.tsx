@@ -184,68 +184,70 @@ export default function ModelsPage() {
             <div className="empty-state-body">Models will appear here after seeding the database with provider model data.</div>
           </div>
         ) : (
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>Model</th>
-                <th>Provider</th>
-                <th>Alias</th>
-                <th>Input / 1M tokens</th>
-                <th>Output / 1M tokens</th>
-                <th>Capabilities</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredModels.map((m) => {
-                const p = getProviderForModel(m);
-                const meta = p ? (providerMeta[p.provider_code] || { color: '#808080', emoji: '🔌' }) : { color: '#808080', emoji: '🔌' };
-                return (
-                  <tr key={m.id}>
-                    <td>
-                      <div style={{ fontWeight: 600, fontSize: 13, color: 'var(--color-ink-black)' }}>{m.display_name}</div>
-                      <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--color-graphite)', marginTop: 2 }}>{m.model_code}</div>
-                    </td>
-                    <td>
-                      {p && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                          <span style={{ fontSize: 14 }}>{meta.emoji}</span>
-                          <span style={{ fontSize: 12, fontWeight: 600, color: meta.color }}>{p.name}</span>
+          <div className="table-responsive">
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  <th>Provider</th>
+                  <th>Alias</th>
+                  <th>Input / 1M tokens</th>
+                  <th>Output / 1M tokens</th>
+                  <th>Capabilities</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredModels.map((m) => {
+                  const p = getProviderForModel(m);
+                  const meta = p ? (providerMeta[p.provider_code] || { color: '#808080', emoji: '🔌' }) : { color: '#808080', emoji: '🔌' };
+                  return (
+                    <tr key={m.id}>
+                      <td>
+                        <div style={{ fontWeight: 600, fontSize: 13, color: 'var(--color-ink-black)' }}>{m.display_name}</div>
+                        <div style={{ fontSize: 11, fontFamily: 'var(--font-mono)', color: 'var(--color-graphite)', marginTop: 2 }}>{m.model_code}</div>
+                      </td>
+                      <td>
+                        {p && (
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                            <span style={{ fontSize: 14 }}>{meta.emoji}</span>
+                            <span style={{ fontSize: 12, fontWeight: 600, color: meta.color }}>{p.name}</span>
+                          </div>
+                        )}
+                      </td>
+                      <td>
+                        {m.model_alias ? (
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--color-purple-text)', background: 'var(--color-purple-bg)', padding: '2px 8px', borderRadius: 6, border: '1px solid var(--color-purple-border)' }}>
+                            {m.model_alias}
+                          </span>
+                        ) : (
+                          <span style={{ color: 'var(--color-ash)', fontSize: 12 }}>—</span>
+                        )}
+                      </td>
+                      <td style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 600 }}>
+                        ${(m.input_cost_per_1m || 0).toFixed(3)}
+                      </td>
+                      <td style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 600 }}>
+                        ${(m.output_cost_per_1m || 0).toFixed(3)}
+                      </td>
+                      <td>
+                        <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+                          {m.supports_vision && <span className="badge badge-blue" style={{ fontSize: 10, padding: '1px 6px' }}>Vision</span>}
+                          {m.supports_streaming !== false && <span className="badge badge-green" style={{ fontSize: 10, padding: '1px 6px' }}>Stream</span>}
+                          {m.supports_tools !== false && <span className="badge badge-purple" style={{ fontSize: 10, padding: '1px 6px' }}>Tools</span>}
                         </div>
-                      )}
-                    </td>
-                    <td>
-                      {m.model_alias ? (
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--color-purple-text)', background: 'var(--color-purple-bg)', padding: '2px 8px', borderRadius: 6, border: '1px solid var(--color-purple-border)' }}>
-                          {m.model_alias}
+                      </td>
+                      <td>
+                        <span className={`badge ${m.enabled !== false && m.status !== 'disabled' ? 'badge-green' : 'badge-gray'}`}>
+                          {m.status || (m.enabled !== false ? 'Active' : 'Disabled')}
                         </span>
-                      ) : (
-                        <span style={{ color: 'var(--color-ash)', fontSize: 12 }}>—</span>
-                      )}
-                    </td>
-                    <td style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 600 }}>
-                      ${(m.input_cost_per_1m || 0).toFixed(3)}
-                    </td>
-                    <td style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 600 }}>
-                      ${(m.output_cost_per_1m || 0).toFixed(3)}
-                    </td>
-                    <td>
-                      <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-                        {m.supports_vision && <span className="badge badge-blue" style={{ fontSize: 10, padding: '1px 6px' }}>Vision</span>}
-                        {m.supports_streaming !== false && <span className="badge badge-green" style={{ fontSize: 10, padding: '1px 6px' }}>Stream</span>}
-                        {m.supports_tools !== false && <span className="badge badge-purple" style={{ fontSize: 10, padding: '1px 6px' }}>Tools</span>}
-                      </div>
-                    </td>
-                    <td>
-                      <span className={`badge ${m.enabled !== false && m.status !== 'disabled' ? 'badge-green' : 'badge-gray'}`}>
-                        {m.status || (m.enabled !== false ? 'Active' : 'Disabled')}
-                      </span>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </div>

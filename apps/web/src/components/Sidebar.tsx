@@ -20,6 +20,7 @@ import {
   Settings,
   Bot,
   FlaskConical,
+  X,
 } from 'lucide-react';
 
 interface NavItem {
@@ -27,6 +28,11 @@ interface NavItem {
   label: string;
   icon: React.ReactNode;
   badge?: string;
+}
+
+interface SidebarProps {
+  isOpen?: boolean;
+  onClose?: () => void;
 }
 
 const navGroups: { label: string; items: NavItem[] }[] = [
@@ -64,7 +70,7 @@ const navGroups: { label: string; items: NavItem[] }[] = [
   },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<any>(null);
@@ -102,6 +108,7 @@ export default function Sidebar() {
       }).catch(() => {});
     }
     localStorage.removeItem('whitegator_token');
+    if (onClose) onClose();
     router.push('/login');
   };
 
@@ -111,12 +118,19 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
       {/* Brand Header */}
       <div className="sidebar-header" style={{ padding: '20px 20px 16px' }}>
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-          <img src="/logo.png" alt="WhiteGator" style={{ height: 26, width: 'auto', objectFit: 'contain' }} />
-        </Link>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Link href="/" onClick={onClose} style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
+            <img src="/logo.png" alt="WhiteGator" style={{ height: 26, width: 'auto', objectFit: 'contain' }} />
+          </Link>
+          {onClose && (
+            <button onClick={onClose} className="sidebar-close-btn" aria-label="Close menu">
+              <X size={18} />
+            </button>
+          )}
+        </div>
         {orgName && (
           <div
             style={{
@@ -144,6 +158,7 @@ export default function Sidebar() {
               <Link
                 key={item.href}
                 href={item.href}
+                onClick={onClose}
                 className={`sidebar-link ${isActive(item.href) ? 'active' : ''}`}
               >
                 <span className="sidebar-icon">{item.icon}</span>
@@ -163,12 +178,14 @@ export default function Sidebar() {
           href={getApiUrl('/docs')}
           target="_blank"
           rel="noreferrer"
+          onClick={onClose}
           className="sidebar-link"
         >
           <span className="sidebar-icon"><Terminal size={15} /></span>
           <span>API Docs</span>
         </a>
       </nav>
+
 
       {/* User Footer */}
       {currentUser && (

@@ -225,7 +225,7 @@ export default function DashboardPage() {
       )}
 
       {/* System Health Cards Row - 3 equal columns */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 24 }}>
+      <div className="grid-responsive-3" style={{ marginBottom: 24 }}>
         {[
           { label: 'GATEWAY ENGINE', value: stats?.system_health.overall, sub: 'FastAPI Async Proxy', icon: <Zap size={14} /> },
           { label: 'DATABASE', value: stats?.system_health.database.status, sub: stats?.system_health.database.database_type || 'SQLAlchemy', icon: <Database size={14} /> },
@@ -256,7 +256,7 @@ export default function DashboardPage() {
       </div>
 
       {/* KPI Cards Row - 4 equal columns in 1 balanced line */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 28 }}>
+      <div className="grid-responsive-4" style={{ marginBottom: 28 }}>
         {kpis.map((kpi) => (
           <div key={kpi.label} className="kpi-card" style={{ padding: '18px 20px', background: '#fff', border: '1px solid var(--color-cloud)' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 12 }}>
@@ -294,7 +294,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Telemetry & Sparkline Section - 1fr : 2fr equal stretch height */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 20, alignItems: 'stretch' }}>
+      <div className="grid-responsive-1-2" style={{ alignItems: 'stretch' }}>
         {/* Left Column: Requests Trend */}
         <div className="merlin-card" style={{ padding: '20px 24px', display: 'flex', flexDirection: 'column', height: '100%' }}>
           <div className="section-header" style={{ marginBottom: 16 }}>
@@ -338,7 +338,7 @@ export default function DashboardPage() {
           </div>
 
           {stats?.recent_activity && stats.recent_activity.length > 0 ? (
-            <div style={{ overflowX: 'auto', flex: 1 }}>
+            <div className="table-responsive" style={{ flex: 1 }}>
               <table className="data-table">
                 <thead>
                   <tr>

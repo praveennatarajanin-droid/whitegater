@@ -54,7 +54,7 @@ export default function CostsPage() {
       </div>
 
       {/* Top Summary */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 14, marginBottom: 28 }}>
+      <div className="grid-responsive-4" style={{ marginBottom: 28 }}>
         {[
           { label: 'Total Spend (30d)', value: loading ? '—' : `$${(data?.total_spend_usd || 0).toFixed(4)}`, color: '#34c759', bg: '#f0fdf4' },
           { label: 'Avg / Request', value: loading ? '—' : data && data.by_provider?.reduce((s,p) => s + p.request_count, 0) > 0 ? `$${((data.total_spend_usd || 0) / data.by_provider.reduce((s,p) => s + p.request_count, 0)).toFixed(6)}` : '$0.000000', color: '#3575f8', bg: '#eff6ff' },
@@ -70,7 +70,7 @@ export default function CostsPage() {
         ))}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+      <div className="grid-responsive-2">
         {/* Provider breakdown */}
         <div className="merlin-card" style={{ padding: '20px' }}>
           <div className="section-header" style={{ marginBottom: 16 }}>
@@ -121,22 +121,24 @@ export default function CostsPage() {
           ) : (data?.by_model || []).length === 0 ? (
             <div style={{ textAlign: 'center', color: 'var(--color-graphite)', fontSize: 13, padding: '24px 0' }}>No model cost data yet</div>
           ) : (
-            <table className="data-table">
-              <thead><tr>
-                <th>Model</th>
-                <th style={{ textAlign: 'right' }}>Requests</th>
-                <th style={{ textAlign: 'right' }}>Cost</th>
-              </tr></thead>
-              <tbody>
-                {(data?.by_model || []).slice(0, 8).sort((a,b) => b.total_spend - a.total_spend).map(m => (
-                  <tr key={m.model}>
-                    <td><span style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}>{m.model}</span></td>
-                    <td style={{ textAlign: 'right', fontFamily: 'var(--font-mono)', fontSize: 12 }}>{m.request_count}</td>
-                    <td style={{ textAlign: 'right', fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700 }}>${(m.total_spend || 0).toFixed(4)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div className="table-responsive">
+              <table className="data-table">
+                <thead><tr>
+                  <th>Model</th>
+                  <th style={{ textAlign: 'right' }}>Requests</th>
+                  <th style={{ textAlign: 'right' }}>Cost</th>
+                </tr></thead>
+                <tbody>
+                  {(data?.by_model || []).slice(0, 8).sort((a,b) => b.total_spend - a.total_spend).map(m => (
+                    <tr key={m.model}>
+                      <td><span style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}>{m.model}</span></td>
+                      <td style={{ textAlign: 'right', fontFamily: 'var(--font-mono)', fontSize: 12 }}>{m.request_count}</td>
+                      <td style={{ textAlign: 'right', fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700 }}>${(m.total_spend || 0).toFixed(4)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </div>
@@ -150,7 +152,7 @@ export default function CostsPage() {
           </div>
           <TrendingUp size={14} style={{ color: 'var(--color-signal-green)' }} />
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
+        <div className="grid-responsive-3">
           {[
             { label: 'Today (est.)', value: (data?.total_spend_usd || 0) / 30, period: 'daily avg' },
             { label: 'This Week (est.)', value: (data?.total_spend_usd || 0) / 4, period: 'weekly avg' },

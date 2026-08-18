@@ -195,7 +195,7 @@ export default function GuardrailsPage() {
       </div>
 
       {/* Info section */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+      <div className="grid-responsive-2">
         <div className="merlin-card" style={{ padding: '20px' }}>
           <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--color-ink-black)', marginBottom: 12 }}>Guardrail Pipeline</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>

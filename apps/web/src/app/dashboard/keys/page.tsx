@@ -116,7 +116,7 @@ function CreateKeyModal({ onClose, onCreated }: { onClose: () => void; onCreated
                 required
               />
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <div className="grid-responsive-2" style={{ gap: 12 }}>
               <div>
                 <label className="merlin-label">Monthly Budget (USD)</label>
                 <input
@@ -334,67 +334,69 @@ export default function KeysPage() {
             </button>
           </div>
         ) : (
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Key Prefix</th>
-                <th>Budget Utilization</th>
-                <th>Rate Limit</th>
-                <th>Status</th>
-                <th>Created</th>
-                <th style={{ textAlign: 'right' }}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {keys.map((k) => (
-                <tr key={k.id}>
-                  <td>
-                    <div style={{ fontWeight: 600, fontSize: 13, color: 'var(--color-ink-black)' }}>{k.name}</div>
-                  </td>
-                  <td>
-                    <span className="truncate-key">{k.key_prefix}{'•'.repeat(16)}</span>
-                  </td>
-                  <td style={{ minWidth: 180 }}>
-                    <BudgetBar spend={k.spend_usd || 0} budget={k.budget_usd} />
-                  </td>
-                  <td style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}>
-                    {k.rate_limit_rpm ? `${k.rate_limit_rpm} RPM` : '∞'}
-                    {k.rate_limit_tpm ? ` · ${(k.rate_limit_tpm/1000).toFixed(0)}K TPM` : ''}
-                  </td>
-                  <td>
-                    <span className={`badge ${k.is_active ? 'badge-green' : 'badge-red'}`}>
-                      {k.is_active ? 'Active' : 'Inactive'}
-                    </span>
-                  </td>
-                  <td style={{ fontSize: 12, color: 'var(--color-graphite)' }}>
-                    {new Date(k.created_at).toLocaleDateString()}
-                  </td>
-                  <td style={{ textAlign: 'right' }}>
-                    <div style={{ display: 'flex', gap: 6, justifyContent: 'flex-end' }}>
-                      <button
-                        onClick={() => {
-                          navigator.clipboard.writeText(k.key_prefix + '…');
-                        }}
-                        className="copy-btn"
-                        title="Copy prefix"
-                      >
-                        <Copy size={10} /> Copy
-                      </button>
-                      <button
-                        onClick={() => handleRevoke(k.id, k.name)}
-                        className="btn-danger btn-sm"
-                        style={{ gap: 4 }}
-                        title="Revoke key"
-                      >
-                        <Trash2 size={10} /> Revoke
-                      </button>
-                    </div>
-                  </td>
+          <div className="table-responsive">
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Key Prefix</th>
+                  <th>Budget Utilization</th>
+                  <th>Rate Limit</th>
+                  <th>Status</th>
+                  <th>Created</th>
+                  <th style={{ textAlign: 'right' }}>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {keys.map((k) => (
+                  <tr key={k.id}>
+                    <td>
+                      <div style={{ fontWeight: 600, fontSize: 13, color: 'var(--color-ink-black)' }}>{k.name}</div>
+                    </td>
+                    <td>
+                      <span className="truncate-key">{k.key_prefix}{'•'.repeat(16)}</span>
+                    </td>
+                    <td style={{ minWidth: 180 }}>
+                      <BudgetBar spend={k.spend_usd || 0} budget={k.budget_usd} />
+                    </td>
+                    <td style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}>
+                      {k.rate_limit_rpm ? `${k.rate_limit_rpm} RPM` : '∞'}
+                      {k.rate_limit_tpm ? ` · ${(k.rate_limit_tpm/1000).toFixed(0)}K TPM` : ''}
+                    </td>
+                    <td>
+                      <span className={`badge ${k.is_active ? 'badge-green' : 'badge-red'}`}>
+                        {k.is_active ? 'Active' : 'Inactive'}
+                      </span>
+                    </td>
+                    <td style={{ fontSize: 12, color: 'var(--color-graphite)' }}>
+                      {new Date(k.created_at).toLocaleDateString()}
+                    </td>
+                    <td style={{ textAlign: 'right' }}>
+                      <div style={{ display: 'flex', gap: 6, justifyContent: 'flex-end' }}>
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText(k.key_prefix + '…');
+                          }}
+                          className="copy-btn"
+                          title="Copy prefix"
+                        >
+                          <Copy size={10} /> Copy
+                        </button>
+                        <button
+                          onClick={() => handleRevoke(k.id, k.name)}
+                          className="btn-danger btn-sm"
+                          style={{ gap: 4 }}
+                          title="Revoke key"
+                        >
+                          <Trash2 size={10} /> Revoke
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
 

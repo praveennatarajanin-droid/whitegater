@@ -141,7 +141,7 @@ export default function PlaygroundPage() {
   };
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 20, height: 'calc(100vh - 80px)', maxHeight: 800 }}>
+    <div className="grid-responsive-1-320" style={{ minHeight: 'calc(100vh - 100px)' }}>
       {/* Chat Panel */}
       <div className="merlin-card" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         {/* Header */}

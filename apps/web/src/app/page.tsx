@@ -389,11 +389,10 @@ export default function LandingPage() {
 
       {/* ── Code Section ────────────────────────────────────────── */}
       <div
+        className="grid-responsive-2 code-section-grid"
         style={{
-          display: 'grid', gridTemplateColumns: '1fr 1fr',
           gap: 40, marginBottom: 72, alignItems: 'center',
         }}
-        className="code-section-grid"
       >
         {/* Left copy */}
         <div>

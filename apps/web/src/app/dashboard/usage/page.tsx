@@ -92,42 +92,44 @@ export default function UsagePage() {
             <div className="empty-state-body">Make requests via your virtual key to populate telemetry logs.</div>
           </div>
         ) : (
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>Request ID</th>
-                <th>Provider</th>
-                <th>Model</th>
-                <th>Status</th>
-                <th>Latency</th>
-                <th style={{ textAlign: 'right' }}>Cost</th>
-                <th>Timestamp</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredLogs.map((log) => (
-                <tr key={log.id}>
-                  <td style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--color-graphite)' }}>
-                    {log.request_id ? `${log.request_id.slice(0, 18)}…` : log.id}
-                  </td>
-                  <td style={{ fontWeight: 600, fontSize: 12, textTransform: 'capitalize' }}>{log.provider}</td>
-                  <td style={{ fontFamily: 'var(--font-mono)', fontSize: 11 }}>{log.model_requested || log.model_executed || '—'}</td>
-                  <td>
-                    <span className={`badge ${log.status_code < 300 ? 'badge-green' : 'badge-red'}`}>
-                      {log.status_code}
-                    </span>
-                  </td>
-                  <td style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}>{log.latency_ms} ms</td>
-                  <td style={{ textAlign: 'right', fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700 }}>
-                    ${(log.cost_usd || 0).toFixed(6)}
-                  </td>
-                  <td style={{ fontSize: 12, color: 'var(--color-graphite)' }}>
-                    {log.created_at ? new Date(log.created_at).toLocaleString() : '—'}
-                  </td>
+          <div className="table-responsive">
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Request ID</th>
+                  <th>Provider</th>
+                  <th>Model</th>
+                  <th>Status</th>
+                  <th>Latency</th>
+                  <th style={{ textAlign: 'right' }}>Cost</th>
+                  <th>Timestamp</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {filteredLogs.map((log) => (
+                  <tr key={log.id}>
+                    <td style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--color-graphite)' }}>
+                      {log.request_id ? `${log.request_id.slice(0, 18)}…` : log.id}
+                    </td>
+                    <td style={{ fontWeight: 600, fontSize: 12, textTransform: 'capitalize' }}>{log.provider}</td>
+                    <td style={{ fontFamily: 'var(--font-mono)', fontSize: 11 }}>{log.model_requested || log.model_executed || '—'}</td>
+                    <td>
+                      <span className={`badge ${log.status_code < 300 ? 'badge-green' : 'badge-red'}`}>
+                        {log.status_code}
+                      </span>
+                    </td>
+                    <td style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}>{log.latency_ms} ms</td>
+                    <td style={{ textAlign: 'right', fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700 }}>
+                      ${(log.cost_usd || 0).toFixed(6)}
+                    </td>
+                    <td style={{ fontSize: 12, color: 'var(--color-graphite)' }}>
+                      {log.created_at ? new Date(log.created_at).toLocaleString() : '—'}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
     </div>

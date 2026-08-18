@@ -1,8 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Sidebar from './Sidebar';
 import HeaderLogo from '@/components/HeaderLogo';
+import { Menu, X } from 'lucide-react';
 
 // Routes that use the sidebar layout (authenticated dashboard)
 const SIDEBAR_ROUTES = [
@@ -21,6 +23,7 @@ const BARE_ROUTES = ['/login', '/register'];
 
 export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   if (BARE_ROUTES.some((r) => pathname.startsWith(r))) {
     // Bare layout — login / register
@@ -55,16 +58,48 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
   if (usesSidebar(pathname)) {
     // Sidebar layout — authenticated dashboard routes
     return (
-      <div style={{ display: 'flex', minHeight: '100vh' }}>
-        <Sidebar />
-        <div className="sidebar-main">
-          <div className="sidebar-content">
-            {children}
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        {/* Mobile top bar */}
+        <header className="sidebar-mobile-header">
+          <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
+            <img src="/logo.png" alt="WhiteGator" style={{ height: 24, width: 'auto', objectFit: 'contain' }} />
+          </a>
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              color: 'var(--color-body-charcoal)',
+              padding: 6,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            aria-label="Toggle Navigation Menu"
+          >
+            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </header>
+
+        {/* Mobile backdrop overlay */}
+        <div
+          className={`sidebar-mobile-overlay ${mobileMenuOpen ? 'open' : ''}`}
+          onClick={() => setMobileMenuOpen(false)}
+        />
+
+        <div style={{ display: 'flex', flex: 1, minHeight: '100vh' }}>
+          <Sidebar isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
+          <div className="sidebar-main">
+            <div className="sidebar-content">
+              {children}
+            </div>
           </div>
         </div>
       </div>
     );
   }
+
 
   // Public layout — landing + public pages with top header
   return (
