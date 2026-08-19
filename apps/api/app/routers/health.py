@@ -4,9 +4,9 @@ from app.config import settings
 from app.database import check_db_connection
 from app.redis_client import redis_cache
 
-router = APIRouter(tags=["Health"])
+router = APIRouter(prefix="/health", tags=["Health"])
 
-@router.get("/health")
+@router.get("")
 def get_system_health():
     db_health = check_db_connection()
     redis_health = redis_cache.check_health()
@@ -23,10 +23,10 @@ def get_system_health():
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
 
-@router.get("/health/database")
+@router.get("/database")
 def get_database_health():
     return check_db_connection()
 
-@router.get("/health/redis")
+@router.get("/redis")
 def get_redis_health():
     return redis_cache.check_health()

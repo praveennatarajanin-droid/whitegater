@@ -5,10 +5,9 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.services.cost_engine import cost_engine_service
 
-router = APIRouter(prefix="/dashboard", tags=["Dashboard Analytics"])
+router = APIRouter(prefix="/v1/dashboard", tags=["Dashboard Analytics"])
 
 @router.get("/usage")
-@router.get("/api/v1/dashboard/usage")
 def get_dashboard_usage(
     start_date: Optional[str] = Query(None),
     end_date: Optional[str] = Query(None),
@@ -39,7 +38,6 @@ def get_dashboard_usage(
     )
 
 @router.get("/costs")
-@router.get("/api/v1/dashboard/costs")
 def get_dashboard_costs(
     organization_id: Optional[str] = Query(None, alias="organization"),
     project_id: Optional[str] = Query(None, alias="project"),
@@ -68,7 +66,6 @@ def get_dashboard_costs(
     }
 
 @router.get("/analytics")
-@router.get("/api/v1/dashboard/analytics")
 def get_dashboard_analytics(
     organization_id: Optional[str] = Query(None, alias="organization"),
     project_id: Optional[str] = Query(None, alias="project"),

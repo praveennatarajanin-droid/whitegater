@@ -7,7 +7,7 @@ from app.database import get_db
 from app.models import User, Organization, OrganizationMember, Team, TeamMember, Project
 from app.security_rbac import get_current_user, verify_org_access, verify_project_access
 
-router = APIRouter(prefix="/api/v1", tags=["Organizations, Teams & Projects"])
+router = APIRouter(prefix="/v1", tags=["Organizations, Teams & Projects"])
 
 # Schemas
 class CreateOrgRequest(BaseModel):

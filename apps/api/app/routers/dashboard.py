@@ -5,7 +5,7 @@ from app.database import get_db, check_db_connection
 from app.redis_client import redis_cache
 from app.models import User, Provider, ModelCatalog, ApiKey, RequestLog
 
-router = APIRouter(prefix="/api/v1/dashboard", tags=["Dashboard"])
+router = APIRouter(prefix="/v1/dashboard", tags=["Dashboard"])
 
 @router.get("/stats")
 def get_dashboard_stats(db: Session = Depends(get_db)):

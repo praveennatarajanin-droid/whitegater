@@ -6,7 +6,7 @@ from app.database import get_db
 from app.models import ApiKey
 from app.services.api_key_service import api_key_service
 
-router = APIRouter(prefix="/api/v1/keys", tags=["Virtual API Keys"])
+router = APIRouter(prefix="/v1/keys", tags=["Virtual API Keys"])
 
 class CreateApiKeyRequest(BaseModel):
     name: str = Field(..., example="Production Gateway Key A")

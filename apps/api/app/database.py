@@ -3,15 +3,17 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 from app.config import settings
 from app.logging_config import logger
 
-connect_args = {"check_same_thread": False} if settings.DATABASE_URL.startswith("sqlite") else {}
+is_sqlite = settings.DATABASE_URL.startswith("sqlite")
+engine_kwargs = {"connect_args": {"check_same_thread": False}} if is_sqlite else {
+    "pool_pre_ping": True,
+    "pool_size": 10,
+    "max_overflow": 20
+}
 
 engine = create_engine(
     settings.DATABASE_URL,
-    connect_args=connect_args,
-    pool_pre_ping=True,
-    pool_size=10 if not settings.DATABASE_URL.startswith("sqlite") else 5,
-    max_overflow=20 if not settings.DATABASE_URL.startswith("sqlite") else 10,
-    echo=False
+    echo=False,
+    **engine_kwargs
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

@@ -11,7 +11,7 @@ from app.config import settings
 from app.security_rbac import get_current_user
 import jwt
 
-router = APIRouter(prefix="/api/v1/auth", tags=["Authentication & Profile"])
+router = APIRouter(prefix="/v1/auth", tags=["Authentication & Profile"])
 
 class LoginRequest(BaseModel):
     email: EmailStr

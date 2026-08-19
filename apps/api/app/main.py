@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.openapi.docs import get_swagger_ui_html, get_redoc_html
 from app.config import settings
 from app.logging_config import logger
 from app.seed import seed_database
@@ -10,7 +11,8 @@ app = FastAPI(
     title=settings.PROJECT_NAME,
     version=settings.VERSION,
     docs_url="/docs",
-    redoc_url="/redoc"
+    redoc_url="/redoc",
+    openapi_url="/openapi.json"
 )
 
 # CORS Setup
@@ -37,17 +39,58 @@ async def global_exception_handler(request: Request, exc: Exception):
         }
     )
 
-# Include Routers
-app.include_router(gateway.router)
-app.include_router(api_keys.router)
-app.include_router(analytics.router)
-app.include_router(mcp.router)
-app.include_router(agents.router)
-app.include_router(admin.router)
-app.include_router(health.router)
-app.include_router(auth.router)
-app.include_router(tenancy.router)
-app.include_router(dashboard.router)
+# Custom Swagger UI & OpenAPI routes for /api prefix
+@app.get("/api/docs", include_in_schema=False)
+@app.get("/api/v1/docs", include_in_schema=False)
+async def custom_swagger_ui_html():
+    return get_swagger_ui_html(
+        openapi_url="/api/openapi.json",
+        title=f"{app.title} - Swagger UI",
+        oauth2_redirect_url=app.swagger_ui_oauth2_redirect_url,
+        init_oauth=app.swagger_ui_init_oauth,
+    )
+
+@app.get("/api/redoc", include_in_schema=False)
+async def custom_redoc_html():
+    return get_redoc_html(
+        openapi_url="/api/openapi.json",
+        title=f"{app.title} - ReDoc",
+    )
+
+@app.get("/api/openapi.json", include_in_schema=False)
+async def custom_openapi():
+    return JSONResponse(content=app.openapi())
+
+# Root status handlers
+@app.get("/", include_in_schema=False)
+@app.get("/api", include_in_schema=False)
+async def api_root():
+    return {
+        "name": settings.PROJECT_NAME,
+        "version": settings.VERSION,
+        "status": "online",
+        "docs_url": "/api/docs",
+        "redoc_url": "/api/redoc",
+        "openapi_url": "/api/openapi.json"
+    }
+
+# Include all routers under both root and /api prefixes so any reverse proxy configuration works
+api_routers = [
+    gateway.router,
+    api_keys.router,
+    analytics.router,
+    mcp.router,
+    agents.router,
+    admin.router,
+    health.router,
+    auth.router,
+    tenancy.router,
+    dashboard.router,
+]
+
+for r in api_routers:
+    app.include_router(r)
+    app.include_router(r, prefix="/api")
 
 @app.on_event("startup")
 def startup_event():

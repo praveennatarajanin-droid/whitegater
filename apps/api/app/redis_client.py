@@ -10,19 +10,31 @@ class RedisCache:
         self._init_client()
 
     def _init_client(self):
+        import socket
         try:
+            # Fast socket check before redis client creation (avoids Windows IPv6 resolution hang)
+            host = "127.0.0.1" if settings.REDIS_HOST == "localhost" else settings.REDIS_HOST
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(0.2)
+            result = sock.connect_ex((host, settings.REDIS_PORT))
+            sock.close()
+            if result != 0:
+                logger.info("Redis server not running locally. Operating with active in-memory cache.")
+                self._redis_client = None
+                return
+
             self._redis_client = redis.Redis(
-                host=settings.REDIS_HOST,
+                host=host,
                 port=settings.REDIS_PORT,
                 password=settings.REDIS_PASSWORD or None,
                 decode_responses=True,
-                socket_timeout=2.0
+                socket_timeout=1.0,
+                socket_connect_timeout=1.0
             )
-            # Test ping
             self._redis_client.ping()
             logger.info("Successfully connected to Redis instance.")
-        except Exception as e:
-            logger.warning(f"Redis connection unavailable ({str(e)}). Using robust in-memory cache fallback.")
+        except Exception:
+            logger.info("Redis server unavailable. Operating with in-memory cache.")
             self._redis_client = None
 
     def get(self, key: str) -> Optional[str]:

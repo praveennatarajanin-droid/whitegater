@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from app.database import get_db
 from app.services.agent_service import agent_service
 
-router = APIRouter(prefix="/api/v1/agents", tags=["Agent Gateway"])
+router = APIRouter(prefix="/v1/agents", tags=["Agent Gateway"])
 
 class RegisterAgentRequest(BaseModel):
     name: str

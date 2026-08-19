@@ -7,7 +7,7 @@ from app.redis_client import redis_cache
 from app.models import User, Organization, Provider, ModelCatalog, Project, ApiKey, RequestLog, AuditLog
 from app.security_rbac import decode_token
 
-router = APIRouter(prefix="/api/v1/admin", tags=["Super Admin Console"])
+router = APIRouter(prefix="/v1/admin", tags=["Super Admin Console"])
 
 def verify_super_admin(
     authorization: Optional[str] = Header(None, alias="Authorization"),

@@ -6,7 +6,7 @@ from app.database import get_db
 from app.models import MCPServer, MCPTool, ToolExecutionLog
 from app.services.mcp_service import mcp_service
 
-router = APIRouter(prefix="/api/v1/mcp", tags=["MCP Gateway"])
+router = APIRouter(prefix="/v1/mcp", tags=["MCP Gateway"])
 
 class RegisterMCPServerRequest(BaseModel):
     name: str
